@@ -1,0 +1,46 @@
+---
+
+- hosts: all
+  become: true
+  pre_tasks:
+  
+  - name: install updates (CentOS)
+    tags: always
+    dnf:
+      update_only: yes
+      update_cache: yes
+    when: ansible_distribution == "CentOS"
+  
+  - name: install updates (Ubuntu)
+    tags: always
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+    
+- hosts: all
+  become: true
+  tasks:
+    
+  - name: create user brave
+    tags: always
+    user:
+      name: brave
+      groups: root    
+      
+  - name: add ssh key for brave
+    tags: always
+    authorized_key:
+      user: brave
+      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILvrqb584KsMw+tN2q3x5bFnzHPotOC2Hzq3JmpsHhkX ansible"
+      
+  - name: add sudoers file for brave
+    tags: always
+    copy:
+      src: sudoer_brave
+      dest: /etc/sudoers.d/brave
+      owner: root
+      owner: root
+      mode: 0440     
+        
+
