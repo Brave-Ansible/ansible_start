@@ -1,0 +1,4 @@
+  - name: add ssh key for brave
+    authorized_key:
+      user: brave
+      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILvrqb584KsMw+tN2q3x5bFnzHPotOC2Hzq3JmpsHhkX ansible"
